@@ -14,6 +14,10 @@ test('12 themes numbered 1 to 12', () => {
   themes.forEach((theme, i) => assert.strictEqual(theme.id, i + 1));
 });
 
+test('every theme has a French name', () => {
+  themes.forEach(theme => assert.ok(theme.french && theme.french.length > 3, theme.name));
+});
+
 test('6 unique questions per theme', () => {
   themes.forEach(theme => {
     assert.strictEqual(theme.questions.length, 6, theme.name);

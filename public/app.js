@@ -143,7 +143,11 @@
       const name = document.createElement('em');
       name.lang = 'en';
       name.textContent = item.name;
-      button.append(number, name);
+      const french = document.createElement('small');
+      french.textContent = item.french;
+      const names = document.createElement('i');
+      names.append(name, french);
+      button.append(number, names);
       button.addEventListener('click', () => choose(t));
       return button;
     }));

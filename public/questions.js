@@ -3,6 +3,7 @@ window.DST_THEMES = [
   {
     "id": 1,
     "name": "Media & journalism",
+    "french": "Médias et journalisme",
     "questions": [
       "Do people still trust journalists?",
       "Should news be free?",
@@ -15,6 +16,7 @@ window.DST_THEMES = [
   {
     "id": 2,
     "name": "Work & careers",
+    "french": "Travail et carrières",
     "questions": [
       "Is money more important than passion in a job?",
       "Should everyone have the right to work from home?",
@@ -27,6 +29,7 @@ window.DST_THEMES = [
   {
     "id": 3,
     "name": "Education",
+    "french": "Éducation",
     "questions": [
       "Is university still worth it?",
       "Should school start later in the morning?",
@@ -39,6 +42,7 @@ window.DST_THEMES = [
   {
     "id": 4,
     "name": "The environment",
+    "french": "L’environnement",
     "questions": [
       "Who is responsible for protecting the planet: individuals or governments?",
       "Should cars be banned from city centres?",
@@ -51,6 +55,7 @@ window.DST_THEMES = [
   {
     "id": 5,
     "name": "Sport",
+    "french": "Sport",
     "questions": [
       "Are professional footballers paid too much?",
       "Is it better to play sport or to watch it?",
@@ -63,6 +68,7 @@ window.DST_THEMES = [
   {
     "id": 6,
     "name": "Food & health",
+    "french": "Alimentation et santé",
     "questions": [
       "Should junk food be taxed?",
       "Could you become vegetarian?",
@@ -75,6 +81,7 @@ window.DST_THEMES = [
   {
     "id": 7,
     "name": "Cities & housing",
+    "french": "Villes et logement",
     "questions": [
       "Is it better to live in a city or in the countryside?",
       "Would you rather live in a house or a flat?",
@@ -87,6 +94,7 @@ window.DST_THEMES = [
   {
     "id": 8,
     "name": "Fame & celebrity",
+    "french": "Célébrité et notoriété",
     "questions": [
       "Should celebrities share their political opinions?",
       "Should famous people be role models for the young?",
@@ -99,6 +107,7 @@ window.DST_THEMES = [
   {
     "id": 9,
     "name": "Generations",
+    "french": "Générations",
     "questions": [
       "Is life easier for young people today than for their parents?",
       "Should the voting age be lowered to 16?",
@@ -111,6 +120,7 @@ window.DST_THEMES = [
   {
     "id": 10,
     "name": "Entertainment & culture",
+    "french": "Divertissement et culture",
     "questions": [
       "Will streaming kill the cinema?",
       "Is there too much violence in films and video games?",
@@ -123,6 +133,7 @@ window.DST_THEMES = [
   {
     "id": 11,
     "name": "Travel & tourism",
+    "french": "Voyages et tourisme",
     "questions": [
       "Is tourism good or bad for a region?",
       "Should flying for holidays be limited?",
@@ -135,6 +146,7 @@ window.DST_THEMES = [
   {
     "id": 12,
     "name": "Money & consumption",
+    "french": "Argent et consommation",
     "questions": [
       "Do we buy too many things we don’t need?",
       "Should cash disappear?",
