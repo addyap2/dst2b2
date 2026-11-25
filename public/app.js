@@ -127,13 +127,6 @@
   }
 
   $('spin').addEventListener('click', spin);
-  $('fullscreen').addEventListener('click', () => {
-    if (document.fullscreenElement) document.exitFullscreen();
-    else document.documentElement.requestFullscreen?.();
-  });
-  document.addEventListener('fullscreenchange', () => {
-    $('fullscreen').textContent = document.fullscreenElement ? 'Quitter le plein écran' : 'Plein écran';
-  });
   document.addEventListener('keydown', event => {
     if (event.code !== 'Space' || event.repeat) return;
     if (event.target.closest('button, select, input, textarea')) return;
