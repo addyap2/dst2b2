@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DST 2 Oral · B2 English</title>
+  <meta name="description" content="Exam wheel for the DST 2 oral: 12 themes, 6 questions each.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#172c39">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./questions.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img class="main-logo" src="./assets/antony-addy-logo.webp" alt="Antony Addy" width="284" height="145">
+      <span><strong>DST 2 ORAL</strong><small>BACHELOR 2 · ENGLISH B2</small></span>
+    </div>
+    <div class="header-actions">
+      <span class="progress" id="progress" aria-live="polite">72 / 72 questions left</span>
+      <button class="quiet-button" id="fullscreen" type="button">Full screen</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="wheel-panel" aria-label="Wheel">
+      <div class="wheel-stage">
+        <div class="wheel-pointer" aria-hidden="true"></div>
+        <svg id="wheel" viewBox="-260 -260 520 520" role="img" aria-label="Wheel of 12 themes"></svg>
+        <div class="wheel-hub" aria-hidden="true"><span>THEMES</span><strong>12</strong></div>
+      </div>
+      <button class="spin-button" id="spin" type="button"><span aria-hidden="true">↻</span>Spin the wheel</button>
+      <p class="wheel-note">Press <kbd>Space</kbd> to spin. A question already drawn is not drawn again.</p>
+    </section>
+
+    <section class="conversation-panel">
+      <article class="question-card" id="card" aria-live="polite">
+        <div class="question-top">
+          <span class="question-tag" id="theme-tag">READY</span>
+          <span class="question-id" id="question-number"></span>
+        </div>
+        <div class="question-content">
+          <h1 id="question" tabindex="-1">Spin the wheel to draw a question.</h1>
+        </div>
+        <div class="question-bottom">
+          <button class="card-button" id="put-back" type="button" disabled>Put this question back</button>
+        </div>
+      </article>
+
+      <section class="timer-panel" id="timer-panel" aria-label="Timer">
+        <div class="timer-top">
+          <div>
+            <h2>Speaking time</h2>
+            <div class="timer-settings">
+              <label for="duration">Length</label>
+              <select id="duration">
+                <option value="60">1 min</option>
+                <option value="120">2 min</option>
+                <option value="180" selected>3 min</option>
+                <option value="300">5 min</option>
+                <option value="600">10 min</option>
+              </select>
+            </div>
+          </div>
+          <span class="timer-readout" id="timer-readout">3:00</span>
+        </div>
+        <div class="timer-track"><span id="timer-bar"></span></div>
+        <div class="timer-actions">
+          <button id="timer-toggle" type="button">Start</button>
+          <button class="quiet-button" id="timer-reset" type="button">Reset timer</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <section class="history" aria-labelledby="history-title">
+    <div class="history-head">
+      <h2 id="history-title">Drawn so far</h2>
+      <button class="outline-button" id="reset" type="button">New exam session</button>
+    </div>
+    <ol id="history-list" class="history-list"></ol>
+    <p class="history-empty" id="history-empty">No question drawn yet.</p>
+  </section>
+
+  <noscript><p class="noscript">This wheel needs JavaScript.</p></noscript>
+</body>
+</html>
