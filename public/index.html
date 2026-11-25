@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DST 2 Oral · B2 English</title>
-  <meta name="description" content="Exam wheel for the DST 2 oral: choose the theme, then spin for one of its 6 questions.">
+  <title>DST 2 Oral · Anglais B2</title>
+  <meta name="description" content="Roue d’examen du DST 2 oral : choisissez le thème, puis lancez la roue pour tirer l’une de ses 6 questions.">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#172c39">
   <link rel="stylesheet" href="./styles.css">
@@ -15,46 +15,42 @@
   <header class="site-header">
     <div class="brand">
       <img class="main-logo" src="./assets/antony-addy-logo.webp" alt="Antony Addy" width="284" height="145">
-      <span><strong>DST 2 ORAL</strong><small>BACHELOR 2 · ENGLISH B2</small></span>
+      <span><strong>DST 2 ORAL</strong><small>BACHELOR 2 · ANGLAIS B2</small></span>
     </div>
     <div class="header-actions">
-      <button class="quiet-button" id="fullscreen" type="button">Full screen</button>
+      <button class="quiet-button" id="fullscreen" type="button">Plein écran</button>
     </div>
   </header>
 
   <section class="theme-picker" aria-labelledby="theme-picker-title">
-    <h2 id="theme-picker-title"><span>1</span>Choose the student’s theme</h2>
+    <h2 id="theme-picker-title"><span>1</span>Choisissez le thème de l’étudiant</h2>
     <div class="theme-grid" id="theme-grid" role="radiogroup" aria-labelledby="theme-picker-title"></div>
   </section>
 
   <main>
-    <section class="wheel-panel" aria-label="Wheel">
+    <section class="wheel-panel" aria-label="Roue">
       <div class="wheel-stage">
         <div class="wheel-pointer" aria-hidden="true"></div>
-        <svg id="wheel" viewBox="-260 -260 520 520" role="img" aria-label="Wheel of question numbers 1 to 6"></svg>
-        <div class="wheel-hub" aria-hidden="true"><span id="hub-label">THEME</span><strong id="hub-number">–</strong></div>
+        <svg id="wheel" viewBox="-260 -260 520 520" role="img" aria-label="Roue des questions numérotées de 1 à 6"></svg>
+        <div class="wheel-hub" aria-hidden="true"><span>THÈME</span><strong id="hub-number">–</strong></div>
       </div>
-      <button class="spin-button" id="spin" type="button"><span aria-hidden="true">↻</span><span id="spin-label">Choose a theme first</span></button>
-      <p class="wheel-note" id="wheel-note">Press <kbd>Space</kbd> to spin. Questions already drawn in a theme are skipped until all 6 have been used.</p>
+      <button class="spin-button" id="spin" type="button"><span aria-hidden="true">↻</span><span id="spin-label">Choisissez d’abord un thème</span></button>
+      <p class="wheel-note">Appuyez sur <kbd>Espace</kbd> pour lancer la roue.</p>
     </section>
 
     <section class="conversation-panel">
       <article class="question-card" id="card" aria-live="polite">
         <div class="question-top">
-          <span class="question-tag" id="theme-tag">NO THEME CHOSEN</span>
+          <span class="question-tag" id="theme-tag">AUCUN THÈME CHOISI</span>
           <span class="question-id" id="question-number"></span>
         </div>
         <div class="question-content">
-          <h1 id="question" tabindex="-1">Choose the student’s theme, then spin the wheel.</h1>
-        </div>
-        <div class="question-bottom">
-          <button class="card-button" id="reset" type="button">New exam session</button>
-          <button class="card-button" id="put-back" type="button" disabled>Put this question back</button>
+          <h1 id="question" tabindex="-1">Choisissez le thème de l’étudiant, puis lancez la roue.</h1>
         </div>
       </article>
     </section>
   </main>
 
-  <noscript><p class="noscript">This wheel needs JavaScript.</p></noscript>
+  <noscript><p class="noscript">Cette roue nécessite JavaScript.</p></noscript>
 </body>
 </html>

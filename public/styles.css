@@ -22,6 +22,7 @@ main{max-width:1344px;margin:auto;padding:24px 48px 40px;display:grid;grid-templ
 .theme-picker h2 span{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px}
 .theme-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .theme-button{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;font-size:14px;font-weight:600;line-height:1.25;min-height:56px}
+.theme-button em{font-style:normal}
 .theme-button span{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:#eef3f5;font-size:13px;font-weight:750}
 .theme-button:not(:disabled):hover{border-color:#9fb3ba}
 .theme-button[aria-checked=true]{background:var(--ink);border-color:var(--ink);color:#fff}
@@ -35,8 +36,6 @@ main{max-width:1344px;margin:auto;padding:24px 48px 40px;display:grid;grid-templ
 .wheel-hub span{font-size:10px;letter-spacing:2px}
 .wheel-hub strong{font-size:34px;line-height:1.05;font-weight:650}
 .segment-number{font-size:58px;font-weight:750;fill:var(--ink)}
-.segment.done path{fill:#e3e8ea}
-.segment.done text{fill:#9aa7ad}
 .spin-button{width:100%;background:var(--ink);color:#fff;border:0;border-radius:12px;font-size:17px;font-weight:650;padding:15px 22px;min-height:54px}
 .spin-button span{font-size:21px;margin-right:8px}
 .spin-button:not(:disabled):hover{background:#254b5c}
@@ -51,8 +50,6 @@ main{max-width:1344px;margin:auto;padding:24px 48px 40px;display:grid;grid-templ
 #question{font-size:clamp(32px,3.6vw,56px);font-weight:650;letter-spacing:-1.2px;line-height:1.15;outline:0}
 .question-card.spinning .question-content{opacity:.5}
 .question-card:not(.has-question) #question{font-size:clamp(26px,2.6vw,38px);color:#d6e3e8;font-weight:550}
-.question-bottom{border-top:1px solid #ffffff20;padding-top:14px;display:flex;justify-content:space-between;gap:16px}
-.card-button{border:0;background:transparent;color:#d6e3e8;font-size:13px;text-decoration:underline;text-underline-offset:4px;padding:6px 0}
 
 
 .noscript{position:fixed;inset:auto 16px 16px;background:#fff3dc;border:2px solid #ad4026;border-radius:12px;padding:18px}
