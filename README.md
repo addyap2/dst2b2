@@ -13,6 +13,17 @@ The questions are in `public/questions.js`.
 
 Static site with no build step. On Vercel, import the repository with the framework preset **Other**; `vercel.json` serves the `public` folder. Then add the domain in the project's **Settings → Domains**.
 
+### Login
+
+`middleware.js` puts the whole site behind a login page (questions included). Set these in the Vercel project under **Settings → Environment Variables**, then redeploy:
+
+| Name | Value |
+| --- | --- |
+| `DST_USER` | the username |
+| `DST_PASSWORD` | the password |
+
+They are kept out of this repository on purpose. Until both are set, the site shows a "not configured" page and stays locked. A successful login lasts 12 hours on that browser. The username ignores capitals; the password does not.
+
 ## Test
 
 ```bash

@@ -4,5 +4,6 @@
   "description": "Exam wheel for the DST 2 oral (Bachelor 2, English B2): 12 themes, 6 questions each.",
   "scripts": {
     "test": "node --test tests/"
-  }
+  },
+  "type": "module"
 }
