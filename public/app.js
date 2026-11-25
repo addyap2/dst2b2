@@ -8,7 +8,7 @@
   const RADIUS = 250;
   const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const SPIN_MS = REDUCED ? 600 : 5200;
-  const PEG = 20; // a peg every 20°, three per number
+  const PEG = 30; // a peg every 30°, two per number
   const SOUND_KEY = 'dst2b2-sound';
   const $ = id => document.getElementById(id);
   const SVG = 'http://www.w3.org/2000/svg';
@@ -22,12 +22,41 @@
     try { return localStorage.getItem(SOUND_KEY) !== 'off'; } catch { return true; }
   }
 
-  // Sound: each peg that passes the pointer hits the rubber flapper.
-  // A short filtered noise burst gives the click, a falling low tone gives the knock of the wood.
+  // Sound: each peg that passes the pointer flicks the flapper.
+  // One short, soft "tock" is built once (a quick woody tone over a tiny click), then replayed
+  // with a little pitch variation so it never sounds like a machine gun.
   const audio = (() => {
     let ctx = null;
-    let noise = null;
+    let sample = null;
+    let output = null;
     let lastTick = -Infinity;
+
+    function buildSample(c) {
+      const rate = c.sampleRate;
+      const length = Math.floor(rate * 0.05);
+      const buffer = c.createBuffer(1, length, rate);
+      const data = buffer.getChannelData(0);
+      let phase = 0;
+      let phase2 = 0;
+      let previousNoise = 0;
+      let peak = 0;
+      for (let i = 0; i < length; i++) {
+        const t = i / rate;
+        const freq = 1150 + 450 * Math.exp(-t / 0.004); // pitch drops quickly, like wood
+        phase += 2 * Math.PI * freq / rate;
+        phase2 += 2 * Math.PI * freq * 2.6 / rate;
+        const body = Math.sin(phase) * Math.exp(-t / 0.011);
+        const overtone = Math.sin(phase2) * Math.exp(-t / 0.004) * 0.25;
+        const noise = Math.random() * 2 - 1;
+        const click = (noise - previousNoise) * 0.5 * Math.exp(-t / 0.0012); // brief, bright attack
+        previousNoise = noise;
+        const attack = Math.min(1, i / (rate * 0.0004)); // no hard edge at the start
+        data[i] = (body * 0.7 + overtone + click * 0.35) * attack;
+        peak = Math.max(peak, Math.abs(data[i]));
+      }
+      for (let i = 0; i < length; i++) data[i] /= peak;
+      return buffer;
+    }
 
     function ready() {
       if (!soundOn) return null;
@@ -35,9 +64,16 @@
       if (!Ctx) return null;
       if (!ctx) {
         ctx = new Ctx();
-        noise = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.05), ctx.sampleRate);
-        const data = noise.getChannelData(0);
-        for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 3);
+        sample = buildSample(ctx);
+        const soften = ctx.createBiquadFilter();
+        soften.type = 'lowpass';
+        soften.frequency.value = 5000;
+        const limiter = ctx.createDynamicsCompressor();
+        limiter.threshold.value = -14;
+        limiter.ratio.value = 6;
+        output = ctx.createGain();
+        output.gain.value = 0.32;
+        output.connect(soften).connect(limiter).connect(ctx.destination);
       }
       if (ctx.state === 'suspended') ctx.resume();
       return ctx;
@@ -47,35 +83,15 @@
       const c = ready();
       if (!c || c.state !== 'running') return;
       const wall = performance.now();
-      if (wall - lastTick < 12) return; // very fast spins become a rattle, not a buzz
+      if (wall - lastTick < 32) return; // at full speed the ticks become a ratchet, never a buzz
       lastTick = wall;
-      const now = c.currentTime;
-      const level = 0.35 + 0.25 * Math.min(1, speed);
-
-      const click = c.createBufferSource();
-      click.buffer = noise;
-      click.playbackRate.value = 0.9 + Math.random() * 0.2;
-      const band = c.createBiquadFilter();
-      band.type = 'bandpass';
-      band.frequency.value = 2600 + Math.random() * 500;
-      band.Q.value = 1.4;
-      const clickGain = c.createGain();
-      clickGain.gain.setValueAtTime(level, now);
-      clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
-      click.connect(band).connect(clickGain).connect(c.destination);
-      click.start(now);
-      click.stop(now + 0.05);
-
-      const knock = c.createOscillator();
-      knock.type = 'triangle';
-      knock.frequency.setValueAtTime(520, now);
-      knock.frequency.exponentialRampToValueAtTime(180, now + 0.04);
-      const knockGain = c.createGain();
-      knockGain.gain.setValueAtTime(level * 0.5, now);
-      knockGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-      knock.connect(knockGain).connect(c.destination);
-      knock.start(now);
-      knock.stop(now + 0.06);
+      const source = c.createBufferSource();
+      source.buffer = sample;
+      source.playbackRate.value = 0.94 + Math.random() * 0.1;
+      const level = c.createGain();
+      level.gain.value = 0.75 + 0.25 * Math.min(1, speed) + (Math.random() - 0.5) * 0.1;
+      source.connect(level).connect(output);
+      source.start();
     }
 
     return { ready, tick };
