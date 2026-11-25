@@ -14,10 +14,18 @@ kbd{font:11px inherit;border:1px solid #cad5db;border-radius:3px;padding:1px 4px
 .brand strong{display:block;font-size:17px;letter-spacing:1.6px}
 .brand small{display:block;font-size:11px;letter-spacing:1.2px;margin-top:5px;color:var(--muted)}
 .header-actions{display:flex;align-items:center;gap:22px}
-.progress{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
 .quiet-button{border:0;background:transparent;padding:10px 6px;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
 
-main{max-width:1344px;margin:auto;padding:32px 48px 40px;display:grid;grid-template-columns:.9fr 1.2fr;gap:28px;align-items:start}
+main{max-width:1344px;margin:auto;padding:24px 48px 40px;display:grid;grid-template-columns:.9fr 1.2fr;gap:28px;align-items:start}
+.theme-picker{max-width:1344px;margin:auto;padding:26px 48px 0}
+.theme-picker h2{font-size:16px;font-weight:650;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.theme-picker h2 span{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px}
+.theme-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.theme-button{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 12px;font-size:14px;font-weight:600;line-height:1.25;min-height:56px}
+.theme-button span{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:#eef3f5;font-size:13px;font-weight:750}
+.theme-button:not(:disabled):hover{border-color:#9fb3ba}
+.theme-button[aria-checked=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.theme-button[aria-checked=true] span{background:var(--gold);color:var(--ink)}
 .wheel-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px 22px;min-width:0}
 .wheel-stage{position:relative;width:min(100%,460px);aspect-ratio:1;margin:0 auto 18px}
 #wheel{width:100%;height:100%;display:block;overflow:visible}
@@ -26,8 +34,7 @@ main{max-width:1344px;margin:auto;padding:32px 48px 40px;display:grid;grid-templ
 .wheel-hub{position:absolute;inset:37%;background:var(--ink);border:6px solid #fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 10px #172c3933;pointer-events:none}
 .wheel-hub span{font-size:10px;letter-spacing:2px}
 .wheel-hub strong{font-size:34px;line-height:1.05;font-weight:650}
-.segment-label{font-size:13.5px;font-weight:650;fill:var(--ink)}
-.segment-number{font-size:12px;font-weight:800;fill:var(--ink)}
+.segment-number{font-size:58px;font-weight:750;fill:var(--ink)}
 .segment.done path{fill:#e3e8ea}
 .segment.done text{fill:#9aa7ad}
 .spin-button{width:100%;background:var(--ink);color:#fff;border:0;border-radius:12px;font-size:17px;font-weight:650;padding:15px 22px;min-height:54px}
@@ -43,6 +50,7 @@ main{max-width:1344px;margin:auto;padding:32px 48px 40px;display:grid;grid-templ
 .question-content{flex:1;display:flex;align-items:center;padding:30px 0}
 #question{font-size:clamp(32px,3.6vw,56px);font-weight:650;letter-spacing:-1.2px;line-height:1.15;outline:0}
 .question-card.spinning .question-content{opacity:.5}
+.question-card:not(.has-question) #question{font-size:clamp(26px,2.6vw,38px);color:#d6e3e8;font-weight:550}
 .question-bottom{border-top:1px solid #ffffff20;padding-top:14px;display:flex;justify-content:space-between;gap:16px}
 .card-button{border:0;background:transparent;color:#d6e3e8;font-size:13px;text-decoration:underline;text-underline-offset:4px;padding:6px 0}
 
@@ -53,6 +61,8 @@ main{max-width:1344px;margin:auto;padding:32px 48px 40px;display:grid;grid-templ
 
 @media(max-width:1000px){
   .site-header{padding:18px 24px}
+  .theme-picker{padding:20px 24px 0}
+  .theme-grid{grid-template-columns:repeat(4,1fr)}
   main{padding:24px 24px 0;gap:20px}
 }
 @media(max-width:760px){
@@ -62,11 +72,12 @@ main{max-width:1344px;margin:auto;padding:32px 48px 40px;display:grid;grid-templ
   .brand strong{font-size:14px}
   .brand small{font-size:9px}
   .header-actions{gap:12px;margin-left:auto}
-  .progress{font-size:12px}
   #fullscreen{display:none}
   main{grid-template-columns:1fr;padding:18px 16px 0}
   .wheel-panel{padding:18px 16px}
-  .segment-label{font-size:15px}
+  .theme-picker{padding:16px 16px 0}
+  .theme-grid{grid-template-columns:repeat(2,1fr)}
+  .theme-button{font-size:13px;min-height:50px;padding:9px 10px}
   .question-card{min-height:300px;padding:22px 20px 16px}
   #question{font-size:30px}
 }

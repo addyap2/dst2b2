@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DST 2 Oral · B2 English</title>
-  <meta name="description" content="Exam wheel for the DST 2 oral: 12 themes, 6 questions each.">
+  <meta name="description" content="Exam wheel for the DST 2 oral: choose the theme, then spin for one of its 6 questions.">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#172c39">
   <link rel="stylesheet" href="./styles.css">
@@ -18,30 +18,34 @@
       <span><strong>DST 2 ORAL</strong><small>BACHELOR 2 · ENGLISH B2</small></span>
     </div>
     <div class="header-actions">
-      <span class="progress" id="progress" aria-live="polite">72 / 72 questions left</span>
       <button class="quiet-button" id="fullscreen" type="button">Full screen</button>
     </div>
   </header>
+
+  <section class="theme-picker" aria-labelledby="theme-picker-title">
+    <h2 id="theme-picker-title"><span>1</span>Choose the student’s theme</h2>
+    <div class="theme-grid" id="theme-grid" role="radiogroup" aria-labelledby="theme-picker-title"></div>
+  </section>
 
   <main>
     <section class="wheel-panel" aria-label="Wheel">
       <div class="wheel-stage">
         <div class="wheel-pointer" aria-hidden="true"></div>
-        <svg id="wheel" viewBox="-260 -260 520 520" role="img" aria-label="Wheel of 12 themes"></svg>
-        <div class="wheel-hub" aria-hidden="true"><span>THEMES</span><strong>12</strong></div>
+        <svg id="wheel" viewBox="-260 -260 520 520" role="img" aria-label="Wheel of question numbers 1 to 6"></svg>
+        <div class="wheel-hub" aria-hidden="true"><span id="hub-label">THEME</span><strong id="hub-number">–</strong></div>
       </div>
-      <button class="spin-button" id="spin" type="button"><span aria-hidden="true">↻</span>Spin the wheel</button>
-      <p class="wheel-note">Press <kbd>Space</kbd> to spin. A question already drawn is not drawn again.</p>
+      <button class="spin-button" id="spin" type="button"><span aria-hidden="true">↻</span><span id="spin-label">Choose a theme first</span></button>
+      <p class="wheel-note" id="wheel-note">Press <kbd>Space</kbd> to spin. Questions already drawn in a theme are skipped until all 6 have been used.</p>
     </section>
 
     <section class="conversation-panel">
       <article class="question-card" id="card" aria-live="polite">
         <div class="question-top">
-          <span class="question-tag" id="theme-tag">READY</span>
+          <span class="question-tag" id="theme-tag">NO THEME CHOSEN</span>
           <span class="question-id" id="question-number"></span>
         </div>
         <div class="question-content">
-          <h1 id="question" tabindex="-1">Spin the wheel to draw a question.</h1>
+          <h1 id="question" tabindex="-1">Choose the student’s theme, then spin the wheel.</h1>
         </div>
         <div class="question-bottom">
           <button class="card-button" id="reset" type="button">New exam session</button>

@@ -2,8 +2,8 @@
 
 Exam wheel for the DST 2 oral (Bachelor 2, English B2): 12 themes with 6 questions each.
 
-- Each spin draws a random question that has not been drawn yet, and the wheel lands on its theme.
-- Drawn questions are saved in the browser, so reloading the page does not repeat them. **New exam session** puts every question back.
+- The supervisor chooses the student’s theme, then spins a wheel numbered 1 to 6 to draw one of that theme’s questions.
+- Questions already drawn in a theme are skipped until all 6 have been used, then the theme starts again. Drawn questions are saved in the browser, so reloading the page keeps them. **New exam session** puts every question back.
 - **Put this question back** returns the last question to the wheel.
 - Full-screen mode for the projector, and <kbd>Space</kbd> to spin.
 
