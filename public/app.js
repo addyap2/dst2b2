@@ -165,6 +165,7 @@
     $('question').lang = 'fr';
     $('question').textContent = 'Lancez la roue pour tirer la question.';
     refresh();
+    $('spin').focus({ preventScroll: true }); // so Space spins straight after choosing
   }
 
   function spin() {
