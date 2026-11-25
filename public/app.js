@@ -91,15 +91,6 @@
     else $('spin').lastChild.textContent = 'Spin the wheel';
     $('put-back').disabled = spinning || history.length === 0;
 
-    const list = $('history-list');
-    list.replaceChildren(...history.map(({ t, q }) => {
-      const li = document.createElement('li');
-      const strong = document.createElement('strong');
-      strong.textContent = `${THEMES[t].id}.${q + 1} ${THEMES[t].name}`;
-      li.append(strong, ` · ${THEMES[t].questions[q]}`);
-      return li;
-    }));
-    $('history-empty').hidden = history.length > 0;
   }
 
   function show(item) {
@@ -127,7 +118,6 @@
     const pick = pool[Math.floor(Math.random() * pool.length)];
 
     spinning = true;
-    timer.reset();
     $('card').classList.add('spinning');
     $('theme-tag').textContent = 'SPINNING…';
     $('question-number').textContent = '';
@@ -160,7 +150,6 @@
     if (spinning || !history.length) return;
     history.pop();
     save();
-    timer.reset();
     show(null);
     refresh();
   }
@@ -170,54 +159,10 @@
     if (history.length && !confirm('Start a new exam session? Every question goes back on the wheel.')) return;
     history = [];
     save();
-    timer.reset();
     show(null);
     refresh();
   }
 
-  const timer = (() => {
-    let total = Number($('duration').value);
-    let left = total;
-    let endAt = 0;
-    let tick = 0;
-    const panel = $('timer-panel');
-
-    function render() {
-      const secs = Math.max(0, Math.ceil(left));
-      $('timer-readout').textContent = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
-      $('timer-bar').style.width = `${(left / total) * 100}%`;
-      panel.classList.toggle('urgent', left > 0 && left <= 30);
-      panel.classList.toggle('finished', left <= 0);
-    }
-    function stop() {
-      clearInterval(tick);
-      tick = 0;
-      $('timer-toggle').textContent = left <= 0 ? 'Done' : left < total ? 'Resume' : 'Start';
-    }
-    function start() {
-      if (left <= 0) reset();
-      endAt = Date.now() + left * 1000;
-      tick = setInterval(() => {
-        left = (endAt - Date.now()) / 1000;
-        if (left <= 0) { left = 0; stop(); }
-        render();
-      }, 200);
-      $('timer-toggle').textContent = 'Pause';
-    }
-    function reset() {
-      clearInterval(tick);
-      tick = 0;
-      total = Number($('duration').value);
-      left = total;
-      $('timer-toggle').textContent = 'Start';
-      render();
-    }
-    $('timer-toggle').addEventListener('click', () => (tick ? stop() : start()));
-    $('timer-reset').addEventListener('click', reset);
-    $('duration').addEventListener('change', reset);
-    render();
-    return { reset };
-  })();
 
   $('spin').addEventListener('click', spin);
   $('put-back').addEventListener('click', putBack);

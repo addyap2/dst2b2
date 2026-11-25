@@ -44,44 +44,12 @@
           <h1 id="question" tabindex="-1">Spin the wheel to draw a question.</h1>
         </div>
         <div class="question-bottom">
+          <button class="card-button" id="reset" type="button">New exam session</button>
           <button class="card-button" id="put-back" type="button" disabled>Put this question back</button>
         </div>
       </article>
-
-      <section class="timer-panel" id="timer-panel" aria-label="Timer">
-        <div class="timer-top">
-          <div>
-            <h2>Speaking time</h2>
-            <div class="timer-settings">
-              <label for="duration">Length</label>
-              <select id="duration">
-                <option value="60">1 min</option>
-                <option value="120">2 min</option>
-                <option value="180" selected>3 min</option>
-                <option value="300">5 min</option>
-                <option value="600">10 min</option>
-              </select>
-            </div>
-          </div>
-          <span class="timer-readout" id="timer-readout">3:00</span>
-        </div>
-        <div class="timer-track"><span id="timer-bar"></span></div>
-        <div class="timer-actions">
-          <button id="timer-toggle" type="button">Start</button>
-          <button class="quiet-button" id="timer-reset" type="button">Reset timer</button>
-        </div>
-      </section>
     </section>
   </main>
-
-  <section class="history" aria-labelledby="history-title">
-    <div class="history-head">
-      <h2 id="history-title">Drawn so far</h2>
-      <button class="outline-button" id="reset" type="button">New exam session</button>
-    </div>
-    <ol id="history-list" class="history-list"></ol>
-    <p class="history-empty" id="history-empty">No question drawn yet.</p>
-  </section>
 
   <noscript><p class="noscript">This wheel needs JavaScript.</p></noscript>
 </body>
