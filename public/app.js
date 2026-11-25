@@ -72,7 +72,7 @@
         limiter.threshold.value = -14;
         limiter.ratio.value = 6;
         output = ctx.createGain();
-        output.gain.value = 0.32;
+        output.gain.value = 0.15; // about half as loud as before (-6.5 dB)
         output.connect(soften).connect(limiter).connect(ctx.destination);
       }
       if (ctx.state === 'suspended') ctx.resume();
