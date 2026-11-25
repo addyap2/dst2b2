@@ -10,7 +10,7 @@ kbd{font:11px inherit;border:1px solid #cad5db;border-radius:3px;padding:1px 4px
 
 .site-header{max-width:1440px;margin:auto;padding:22px 48px;display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:20px}
-.main-logo{width:126px;height:64px;object-fit:contain;display:block}
+.main-logo{width:auto;height:72px;display:block}
 .brand strong{display:block;font-size:17px;letter-spacing:1.6px}
 .brand small{display:block;font-size:11px;letter-spacing:1.2px;margin-top:5px;color:var(--muted)}
 
@@ -61,7 +61,7 @@ main{max-width:1344px;margin:auto;padding:24px 48px 40px;display:grid;grid-templ
 }
 @media(max-width:760px){
   .site-header{padding:14px 16px;flex-wrap:wrap}
-  .main-logo{width:90px;height:46px}
+  .main-logo{height:46px}
   .brand{gap:12px}
   .brand strong{font-size:14px}
   .brand small{font-size:9px}
