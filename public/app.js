@@ -6,13 +6,80 @@
   const PER_THEME = 6;
   const SEGMENT = 360 / PER_THEME;
   const RADIUS = 250;
-  const SPIN_MS = matchMedia('(prefers-reduced-motion: reduce)').matches ? 400 : 4200;
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SPIN_MS = REDUCED ? 600 : 5200;
+  const PEG = 20; // a peg every 20°, three per number
+  const SOUND_KEY = 'dst2b2-sound';
   const $ = id => document.getElementById(id);
   const SVG = 'http://www.w3.org/2000/svg';
 
   let theme = null;
   let rotation = 0;
   let spinning = false;
+  let soundOn = readSound();
+
+  function readSound() {
+    try { return localStorage.getItem(SOUND_KEY) !== 'off'; } catch { return true; }
+  }
+
+  // Sound: each peg that passes the pointer hits the rubber flapper.
+  // A short filtered noise burst gives the click, a falling low tone gives the knock of the wood.
+  const audio = (() => {
+    let ctx = null;
+    let noise = null;
+    let lastTick = -Infinity;
+
+    function ready() {
+      if (!soundOn) return null;
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      if (!ctx) {
+        ctx = new Ctx();
+        noise = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.05), ctx.sampleRate);
+        const data = noise.getChannelData(0);
+        for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 3);
+      }
+      if (ctx.state === 'suspended') ctx.resume();
+      return ctx;
+    }
+
+    function tick(speed) {
+      const c = ready();
+      if (!c || c.state !== 'running') return;
+      const wall = performance.now();
+      if (wall - lastTick < 12) return; // very fast spins become a rattle, not a buzz
+      lastTick = wall;
+      const now = c.currentTime;
+      const level = 0.35 + 0.25 * Math.min(1, speed);
+
+      const click = c.createBufferSource();
+      click.buffer = noise;
+      click.playbackRate.value = 0.9 + Math.random() * 0.2;
+      const band = c.createBiquadFilter();
+      band.type = 'bandpass';
+      band.frequency.value = 2600 + Math.random() * 500;
+      band.Q.value = 1.4;
+      const clickGain = c.createGain();
+      clickGain.gain.setValueAtTime(level, now);
+      clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+      click.connect(band).connect(clickGain).connect(c.destination);
+      click.start(now);
+      click.stop(now + 0.05);
+
+      const knock = c.createOscillator();
+      knock.type = 'triangle';
+      knock.frequency.setValueAtTime(520, now);
+      knock.frequency.exponentialRampToValueAtTime(180, now + 0.04);
+      const knockGain = c.createGain();
+      knockGain.gain.setValueAtTime(level * 0.5, now);
+      knockGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+      knock.connect(knockGain).connect(c.destination);
+      knock.start(now);
+      knock.stop(now + 0.06);
+    }
+
+    return { ready, tick };
+  })();
 
   function point(angle, radius) {
     const rad = angle * Math.PI / 180;
@@ -40,6 +107,10 @@
       const [tx, ty] = point(i * SEGMENT + SEGMENT / 2, 168);
       const label = el('text', { x: tx, y: ty, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'segment-number' }, rotor);
       label.textContent = i + 1;
+    }
+    for (let angle = 0; angle < 360; angle += PEG) {
+      const [px, py] = point(angle, RADIUS - 9);
+      el('circle', { cx: px, cy: py, r: 4.5, class: 'peg' }, rotor);
     }
   }
 
@@ -72,6 +143,11 @@
     $('spin-label').textContent = theme === null ? 'Choisissez d’abord un thème' : 'Lancer la roue';
   }
 
+  function renderSound() {
+    $('sound').setAttribute('aria-pressed', String(soundOn));
+    $('sound').textContent = soundOn ? 'Son : activé' : 'Son : coupé';
+  }
+
   function setTag(t) {
     const tag = $('theme-tag');
     const name = document.createElement('span');
@@ -102,17 +178,31 @@
     refresh();
 
     const target = pick * SEGMENT + SEGMENT * (0.2 + Math.random() * 0.6);
-    const current = ((rotation % 360) + 360) % 360;
+    const from = rotation;
+    const current = ((from % 360) + 360) % 360;
     const delta = ((360 - target) - current + 720) % 360;
-    rotation += 360 * 5 + delta;
+    const to = from + 360 * (REDUCED ? 1 : 6) + delta;
+    rotation = to;
     const rotor = $('wheel-rotor');
-    rotor.style.transition = `transform ${SPIN_MS}ms cubic-bezier(.12,.62,.16,1)`;
-    rotor.style.transform = `rotate(${rotation}deg)`;
-
+    const pointer = document.querySelector('.wheel-pointer');
+    const ease = x => 1 - Math.pow(1 - x, 3);
+    const startedAt = performance.now();
+    let lastPeg = Math.floor(from / PEG);
     let finished = false;
+    audio.ready();
+
+    // The pointer is a flapper: a peg pushes it aside as it approaches, then it snaps back.
+    function place(angle) {
+      rotor.style.transform = `rotate(${angle}deg)`;
+      const phase = (angle % PEG) / PEG;
+      const bend = phase > 0.6 ? (phase - 0.6) / 0.4 : 0;
+      pointer.style.transform = `translateX(-50%) rotate(${-bend * 22}deg)`;
+    }
+
     const finish = () => {
       if (finished) return;
       finished = true;
+      place(to);
       spinning = false;
       $('card').classList.remove('spinning');
       $('card').classList.add('has-question');
@@ -122,11 +212,31 @@
       refresh();
       $('question').focus({ preventScroll: true });
     };
-    rotor.addEventListener('transitionend', finish, { once: true });
-    setTimeout(finish, SPIN_MS + 300);
+
+    function frame(now) {
+      if (finished) return;
+      const x = Math.min(1, (now - startedAt) / SPIN_MS);
+      const angle = from + (to - from) * ease(x);
+      const peg = Math.floor(angle / PEG);
+      if (peg !== lastPeg) {
+        lastPeg = peg;
+        audio.tick(3 * Math.pow(1 - x, 2));
+      }
+      place(angle);
+      if (x < 1) requestAnimationFrame(frame);
+      else finish();
+    }
+    requestAnimationFrame(frame);
+    setTimeout(finish, SPIN_MS + 1500); // if the tab is hidden and frames stop
   }
 
   $('spin').addEventListener('click', spin);
+  $('sound').addEventListener('click', () => {
+    soundOn = !soundOn;
+    try { localStorage.setItem(SOUND_KEY, soundOn ? 'on' : 'off'); } catch { /* private mode */ }
+    renderSound();
+    if (soundOn) audio.tick(0.5);
+  });
   document.addEventListener('keydown', event => {
     if (event.code !== 'Space' || event.repeat) return;
     if (event.target.closest('button, select, input, textarea')) return;
@@ -136,5 +246,6 @@
 
   drawThemes();
   drawWheel();
+  renderSound();
   refresh();
 })();

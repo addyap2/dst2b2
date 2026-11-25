@@ -5,7 +5,7 @@ Exam wheel for the DST 2 oral (Bachelor 2, English B2): 12 themes with 6 questio
 - The supervisor chooses the student’s theme, then spins a wheel numbered 1 to 6 to draw one of that theme’s questions.
 - Every spin is random, so a question can be drawn again.
 - The interface is in French; theme names and questions stay in English.
-- Press <kbd>Space</kbd> to spin.
+- Press <kbd>Space</kbd> to spin. The wheel ticks as each peg hits the pointer; **Son** turns the sound off or on (remembered in the browser).
 
 The questions are in `public/questions.js`.
 
